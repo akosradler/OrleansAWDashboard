@@ -1,0 +1,1 @@
+export const CUSTOMERS_ENDPOINT = 'http://localhost:55969/api/customers'

@@ -6,7 +6,7 @@ const CustomerListRow = ({customer}) => {
       <td>{customer.firstName}</td>
       <td>{customer.lastName}</td>
       <td>{customer.emailAddress}</td>
-      <td>{customer.phoneNumber}</td>
+      <td>{customer.phone}</td>
     </tr>
   );
 };
@@ -16,7 +16,7 @@ CustomerListRow.propTypes = {
     firstName: Proptypes.string.isRequired,
     lastName: Proptypes.string.isRequired, 
     emailAddress: Proptypes.string.isRequired,
-    phoneNumber: Proptypes.string.isRequired  
+    phone: Proptypes.string.isRequired  
   }).isRequired
 };
 

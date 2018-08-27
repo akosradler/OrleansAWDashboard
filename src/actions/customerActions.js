@@ -1,12 +1,15 @@
-import { createCustomerError } from "../actionCreators/actionCreators";
+import { createCustomerError, createCustomerSuccess, loadCustomersError, loadCustomersSuccess, beginAddCustomer, beginLoadCustomers } from "../actionCreators/actionCreators";
+import {CUSTOMERS_ENDPOINT} from '../apiEndpoints'
+import axios from "axios";
 
 export function loadCustomers() {
   return (dispatch) => {
     dispatch(beginLoadCustomers());
-    return customerApi.loadCustomers()
+    return axios.get(CUSTOMERS_ENDPOINT)
       .then(customers => {
         dispatch(loadCustomersSuccess(customers));
       }).catch(error => {
+      dispatch(loadCustomersError(error));
       throw(error);
     });
   };
@@ -14,8 +17,8 @@ export function loadCustomers() {
   
 export function createCustomer(customer) {
   return (dispatch) => {
-    dispatch(beginSaveCustomer());
-    return customerApi.createCustomer(customer)
+    dispatch(beginAddCustomer());
+    return axios.post(CUSTOMERS_ENDPOINT,{customer})
       .then(customer => {
           dispatch(createCustomerSuccess(customer));
         }).catch(error => {
