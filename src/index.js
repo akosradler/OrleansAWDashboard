@@ -1,8 +1,28 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import { Provider } from 'react-redux';
+import { Router, Route } from 'react-router-dom';
 import registerServiceWorker from './registerServiceWorker';
+import { createRoutes } from './routes';
+import createConfiguredStore from './store/createConfiguredStore';
+import { loadCustomers } from './actions/customerActions'
+import history from './services/history';
+import App from './App'
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'font-awesome/css/font-awesome.min.css';
+import 'toastr/build/toastr.css'
 
-ReactDOM.render(<App />, document.getElementById('root'));
+const routes = createRoutes(history);
+const store = createConfiguredStore();
+store.dispatch(loadCustomers());
+
+ReactDOM.render(
+  <Provider store={store}>    
+    <Router history={history}>
+      {routes}
+    </Router>
+  </Provider>,
+  document.getElementById('root')
+);
 registerServiceWorker();

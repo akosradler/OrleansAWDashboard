@@ -1,11 +1,14 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import {browserHistory} from 'react-router';
+import history from '../services/history';
+import CustomerList from './CustomerList'
+import * as customerActions from '../actions/customerActions';
 
 class Customers extends React.Component {
   goToAddCustomer = () => {
-    browserHistory.push('/addCustomer');
+    history.push('/customers/add');
   }
 
   render() {
@@ -14,14 +17,13 @@ class Customers extends React.Component {
     return (
       <div>
         <h1>Customers</h1>
+        <CustomerList customers={customers} />
+        <br/>
         <input type="submit"
           value="Add customer"
           className="btn btn-primary"
           onClick={this.goToAddCustomer} />
-        <button type="button" class="btn btn-default btn-sm">
-          <span class="glyphicon glyphicon-refresh"></span> Refresh
-        </button>
-        <CustomerList customers={customers} />
+        <button className="btn btn-md fa fa-refresh float-right"/>
       </div>
     );
   }
@@ -32,13 +34,13 @@ Customers.propTypes = {
   actions: PropTypes.object.isRequired
 };
 
-mapStateToProps = (state) => {
+function mapStateToProps (state) {
   return {
     customers: state.customers
   }
 }
 
-mapDispatchToProps = (dispatch) => {
+function mapDispatchToProps (dispatch) {
   return {
     actions: bindActionCreators(customerActions, dispatch)
   }

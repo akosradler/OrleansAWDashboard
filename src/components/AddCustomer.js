@@ -1,14 +1,15 @@
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import * as customerActions from '../../actions/customerActions';
+import * as customerActions from '../actions/customerActions'
 import CustomerForm from './CustomerForm';
-import validator from 'validator';
+import validator from 'react-validation';
 import toastr from 'toastr';
 
 export class AddCustomer extends React.Component {
   state = {
-    customer: Object.assign({}),
+    customer: Object.assign({})
   }
 
   isValidInput = () => {
@@ -33,7 +34,13 @@ export class AddCustomer extends React.Component {
     return isValid;
   }
 
-  addCustomer(event) {
+  updateCustomer = (event) => {
+    let customer = Object.assign({}, this.state.customer);
+    customer[event.target.name] = event.target.value;
+    return this.setState({customer: customer});
+  }
+
+  addCustomer = (event) => {
     event.preventDefault();
 
     if (!this.isValidInput()) {
@@ -67,8 +74,8 @@ AddCustomer.propTypes = {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(courseActions, dispatch)
+    actions: bindActionCreators(customerActions, dispatch)
   }
 }
 
-export default connect(null, mapDispatchToProps)(ManageCoursePage);
+export default connect(null, mapDispatchToProps)(AddCustomer);
