@@ -4,7 +4,7 @@ import App from './App';
 import Callback from './services/Callback';
 import Auth from './services/Auth';
 import Customers from './components/Customers'
-import { AddCustomer } from './components/AddCustomer';
+import AddCustomer from './components/AddCustomer';
 
 const auth = new Auth()
 
@@ -16,17 +16,15 @@ const handleAuthentication = ({ location }) => {
 
 export const createRoutes = () => {
   return (
-    <div>
-      <Switch>
-        <Route exact path="/" render={(props) => <App auth={auth} {...props} />} />
-        <Route exact path="/customers" render={(props) => <Customers auth={auth} {...props} />} />
-        <Route exact path="/customers/add" render={(props) => <AddCustomer auth={auth} {...props} />} />
-        <Route path="/callback" render={(props) => {
-          handleAuthentication(props);
-          return <Callback {...props} />
-        }} />
-      </Switch>
-    </div>
+    <Switch>
+      <Route exact path="/" render={(props) => <App auth={auth} {...props} />} />
+      <Route exact path="/customers" render={(props) => <Customers auth={auth} {...props} />} />
+      <Route exact path="/customers/add" render={(props) => <AddCustomer auth={auth} {...props} />} />
+      <Route path="/callback" render={(props) => {
+        handleAuthentication(props);
+        return <Callback {...props} />
+      }} />
+    </Switch>
   );
 }
 

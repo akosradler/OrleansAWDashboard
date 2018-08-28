@@ -1,6 +1,6 @@
 import React from 'react';
 
-const CustomerForm = ({ customer, onChange, onSubmit }) => {
+const CustomerForm = ({ onChange, onSubmit }) => {
   return (
     <form className="form-group">
       <h1>Add Customer</h1>
@@ -10,7 +10,6 @@ const CustomerForm = ({ customer, onChange, onSubmit }) => {
           name="FirstName"
           placeholder="First Name"
           label="First Name"
-          value={customer.firstName}
           onChange={onChange}
         />
         <br/>
@@ -20,7 +19,6 @@ const CustomerForm = ({ customer, onChange, onSubmit }) => {
           name="LastName"
           placeholder="Last Name"
           label="First Name"
-          value={customer.lastName}
           onChange={onChange}
         />
         <br/>
@@ -30,17 +28,15 @@ const CustomerForm = ({ customer, onChange, onSubmit }) => {
           name="EmailAddress"
           placeholder="Email Address"
           label="Email Address"
-          value={customer.title}
           onChange={onChange}
         />
         <br/>
         <input
           className="form-control"
           type="text"
-          name="Phone Number"
+          name="Phone"
           placeholder="Phone Number"
           label="Phone Numer"
-          value={customer.phone}
           onChange={onChange}
         />
       <br/>

@@ -31,9 +31,11 @@ export function beginAddCustomer() {
 export function loadCustomers() {
   return (dispatch) => {
     dispatch(beginLoadCustomers());
-    return axios.get(CUSTOMERS_ENDPOINT)
-      .then(customers => {
-        dispatch(loadCustomersSuccess(customers));
+    return axios.get(CUSTOMERS_ENDPOINT, {
+      timeout: 15000
+    })
+      .then(response => {
+        dispatch(loadCustomersSuccess(response.data));
       }).catch(error => {
       dispatch(loadCustomersError(error));
       toastr.error("Failed to fetch data from the API")
@@ -44,7 +46,9 @@ export function loadCustomers() {
 export function addCustomer(customer) {
   return (dispatch) => {
     dispatch(beginAddCustomer());
-    return axios.post(CUSTOMERS_ENDPOINT,{customer})
+    return axios.post(CUSTOMERS_ENDPOINT,customer, {
+      timeout: 8000
+    })
       .then(customer => {
           dispatch(addCustomerSuccess(customer));
         }).catch(error => {

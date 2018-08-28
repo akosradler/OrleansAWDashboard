@@ -7,13 +7,20 @@ import CustomerList from './CustomerList'
 import * as customerActions from '../actions/customerActions';
 
 class Customers extends React.Component {
+  componentDidMount() {
+    this.refresh();
+  }
+
   goToAddCustomer = () => {
     history.push('/customers/add');
   }
 
+  refresh = () => {
+    this.props.actions.loadCustomers()
+  }
+
   render() {
     const { customers } = this.props;
-
     return (
       <div>
         <h1>Customers</h1>
@@ -23,7 +30,7 @@ class Customers extends React.Component {
           value="Add customer"
           className="btn btn-primary"
           onClick={this.goToAddCustomer} />
-        <button className="btn btn-md fa fa-refresh float-right"/>
+        <button className="btn btn-md fa fa-refresh float-right" onClick={this.refresh}/>
       </div>
     );
   }

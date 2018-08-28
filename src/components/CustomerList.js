@@ -15,7 +15,7 @@ const CustomerList = ({customers}) => {
       </thead>
       <tbody>
       {customers.map(customer =>
-        <CustomerListRow key={customer.id} customer={customer}/>
+        <CustomerListRow key={customer.CustomerID} customer={customer}/>
       )}
       </tbody>
     </table>

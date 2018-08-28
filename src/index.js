@@ -15,7 +15,6 @@ import 'toastr/build/toastr.css'
 
 const routes = createRoutes(history);
 const store = createConfiguredStore();
-store.dispatch(loadCustomers());
 
 ReactDOM.render(
   <Provider store={store}>    

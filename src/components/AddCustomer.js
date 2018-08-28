@@ -2,12 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import history from '../services/history'
 import * as customerActions from '../actions/customerActions'
 import CustomerForm from './CustomerForm';
-import validator from 'react-validation';
+import validator from 'validator';
 import toastr from 'toastr';
 
-export class AddCustomer extends React.Component {
+class AddCustomer extends React.Component {
   state = {
     customer: Object.assign({})
   }
@@ -15,20 +16,20 @@ export class AddCustomer extends React.Component {
   isValidInput = () => {
     let isValid = true;
 
-    if (this.state.customer.firstName.trim().length < 0) {
-      toastr.error = 'First Name must be entered';
+    if (this.state.customer.FirstName.trim().length < 0) {
+      toastr.error('First Name must be entered');
       isValid = false;
     }
-    if (this.state.customer.lastName.trim().length < 0) {
-      toastr.error = 'Last Name must be entered';
+    if (this.state.customer.LastName.trim().length < 0) {
+      toastr.error('Last Name must be entered');
       isValid = false;
     }
-    if (!validator.isEmail(this.state.customer.emailAddress)) {
-      toastr.error = 'Valid email address must be entered';
+    if (!validator.isEmail(this.state.customer.EmailAddress)) {
+      toastr.error('Valid email address must be entered');
       isValid = false;
     }
-    if (!validator.isMobilePhone(this.state.customer.phone)) {
-      toastr.error = 'Valid phone number must be entered';
+    if (!validator.isMobilePhone(this.state.customer.Phone)) {
+      toastr.error('Valid phone number must be entered');
       isValid = false;
     }
     return isValid;
@@ -40,7 +41,7 @@ export class AddCustomer extends React.Component {
     return this.setState({customer: customer});
   }
 
-  addCustomer = (event) => {
+  addNewCustomer = (event) => {
     event.preventDefault();
 
     if (!this.isValidInput()) {
@@ -49,19 +50,15 @@ export class AddCustomer extends React.Component {
 
     this.props.actions.addCustomer(this.state.customer)
       .then(() => {
-        toastr.success('Customer Added');
-        this.context.router.push('/customers');
-      })
-      .catch(error => {
-        toastr.error(error);
+        history.push('/customers');
       });
   }
 
   render() {
     return (
       <CustomerForm
-        onSubmit={this.addCustomer}
-        customer={this.state.customer}
+        onSubmit={this.addNewCustomer}
+        onChange={this.updateCustomer}
       />
     );
   }
@@ -72,10 +69,16 @@ AddCustomer.propTypes = {
   actions: PropTypes.object.isRequired
 }
 
+function mapStateToProps (state) {
+  return {
+    state: state
+  }
+}
+
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators(customerActions, dispatch)
   }
 }
 
-export default connect(null, mapDispatchToProps)(AddCustomer);
+export default connect(mapStateToProps, mapDispatchToProps)(AddCustomer);
