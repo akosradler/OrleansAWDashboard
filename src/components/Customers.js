@@ -19,20 +19,30 @@ class Customers extends React.Component {
     this.props.actions.loadCustomers()
   }
 
+  login = () => {
+    this.props.auth.login()
+  }
+
   render() {
     const { customers } = this.props;
-    return (
-      <div>
-        <h1>Customers</h1>
-        <CustomerList customers={customers} />
-        <br/>
-        <input type="submit"
-          value="Add customer"
-          className="btn btn-primary"
-          onClick={this.goToAddCustomer} />
-        <button className="btn btn-md fa fa-refresh float-right" onClick={this.refresh}/>
-      </div>
-    );
+    const {isAuthenticated} = this.props.auth;
+    if(isAuthenticated())
+    {
+      return (
+        <div>
+          <h1>Customers</h1>
+          <CustomerList customers={customers} />
+          <br/>
+          <input type="submit"
+            value="Add customer"
+            className="btn btn-primary"
+            onClick={this.goToAddCustomer} />
+          <button className="btn btn-md fa fa-refresh float-right" onClick={this.refresh}/>
+        </div>
+      );
+    }
+    else
+      this.login()
   }
 }
 

@@ -13,22 +13,26 @@ class AddCustomer extends React.Component {
     customer: Object.assign({})
   }
 
+  login = () => {
+    this.props.auth.login()
+  }
+
   isValidInput = () => {
     let isValid = true;
 
-    if (this.state.customer.FirstName.trim().length < 0) {
+    if (!this.state.customer.FirstName || this.state.customer.FirstName.trim().length < 0) {
       toastr.error('First Name must be entered');
       isValid = false;
     }
-    if (this.state.customer.LastName.trim().length < 0) {
+    if (!this.state.customer.LastName || this.state.customer.LastName.trim().length < 0) {
       toastr.error('Last Name must be entered');
       isValid = false;
     }
-    if (!validator.isEmail(this.state.customer.EmailAddress)) {
+    if (!this.state.customer.EmailAddress || !validator.isEmail(this.state.customer.EmailAddress)) {
       toastr.error('Valid email address must be entered');
       isValid = false;
     }
-    if (!validator.isMobilePhone(this.state.customer.Phone)) {
+    if (!this.state.customer.Phone || !validator.isMobilePhone(this.state.customer.Phone)) {
       toastr.error('Valid phone number must be entered');
       isValid = false;
     }
@@ -55,12 +59,18 @@ class AddCustomer extends React.Component {
   }
 
   render() {
-    return (
-      <CustomerForm
-        onSubmit={this.addNewCustomer}
-        onChange={this.updateCustomer}
-      />
-    );
+    const {isAuthenticated} = this.props.auth;
+    if(isAuthenticated())
+    {
+      return (
+        <CustomerForm
+          onSubmit={this.addNewCustomer}
+          onChange={this.updateCustomer}
+        />
+      );
+    }
+    else
+      this.login();
   }
 }
 
